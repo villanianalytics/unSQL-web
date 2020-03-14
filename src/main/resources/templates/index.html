@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>UnSQL Web</title>
+
+<link rel="stylesheet"
+	th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/main.css}" />
+<link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css"
+	rel="stylesheet"></link>
+</head>
+
+<body class="py-4">
+	<div class="container">
+		<a class="github-fork-ribbon"
+			href="https://github.com/villanianalytics/unSQL"
+			data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me
+			on GitHub</a>
+		<h1>UnSQL</h1>
+		<p class="lead">Utility to run SQL on XML and JSON files</p>
+
+		<form class="form">
+			<div class="form-group">
+				<label for="mode" class="control-label">Language Mode:</label> <select
+					id="mode" class="form-control">
+					<option>json</option>
+					<option>xml</option>
+				</select>
+			</div>
+		</form>
+		<div class="row">
+			<div class="col-12" style="height: 400px">
+				<div id="editor"></div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript"
+		th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+	<script src="https://pagecdn.io/lib/ace/1.4.8/ace.js"
+		type="text/javascript" charset="utf-8"></script>
+	<script>
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/monokai");
+		editor.session.setMode("ace/mode/javascript");
+	</script>
+</body>
+</html>
