@@ -65,9 +65,7 @@
 		<dependency>
 		    <groupId>com.github.villanianalytics.unsql</groupId>
 		    <artifactId>unsql</artifactId>
-		    <version>0.0.1</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/unsql-0.0.1.jar</systemPath>
+		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
