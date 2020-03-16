@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="true">
 
 <title>UnSQL Web</title>
 
@@ -22,22 +22,64 @@
 			on GitHub</a>
 		<h1>UnSQL</h1>
 		<p class="lead">Utility to run SQL on XML and JSON files</p>
-
-		<form class="form">
-			<div class="form-group">
-				<label for="mode" class="control-label">Language Mode:</label> <select
-					id="mode" class="form-control">
-					<option>json</option>
-					<option>xml</option>
-				</select>
+		<div class="row" th:if="${not #lists.isEmpty(results)}">
+			<div class="col-sm-12">
+				<div class="alert alert-success" role="alert">Query ran with
+					success</div>
 			</div>
-		</form>
+		</div>
+		<div class="row" th:if="${errors} != null">
+			<div class="col-sm-12">
+				<div class="alert alert-danger" role="alert">
+					<span th:text="${errors}"></span>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
-			<div class="col-12" style="height: 400px">
-				<div id="editor"></div>
+			<div class="col-sm-6">
+				<h3>Input</h3>
+				<form class="form" method="post" action="">
+					<div class="form-group">
+						<label for="exampleFormControlInput1">SQL Query:</label> <input
+							type="text" class="form-control" required name="sqlQuery"
+							placeholder="select ..." />
+					</div>
+					<div class="form-group">
+						<label for="mode" class="control-label">Input Mode:</label> <select
+							id="mode" class="form-control">
+							<option>json</option>
+							<option>xml</option>
+						</select>
+					</div>
+					<input type="hidden" id="inputText" required name="inputText" />
+					<div class="form-group">
+						<label for="mode" class="control-label">Input text:</label>
+						<div class="col-12" style="height: 400px">
+							<div id="editor"></div>
+						</div>
+					</div>
+					<br />
+					<button type="submit" class="btn btn-primary ">Run Query</button>
+
+				</form>
+			</div>
+			<div class="col-sm-6">
+				<h3>Results</h3>
+				<div th:each="result: ${results}">
+					<ul th:each="r: ${result.results}" class="list-unstyled">
+						<li class="list-group-item" th:text="${r}">/>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<footer class="page-footer font-small blue">
+		<div class="footer-copyright text-center py-3">
+			© UnSQL</a>
+		</div>
+	</footer>
 
 	<script type="text/javascript"
 		th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
@@ -46,7 +88,21 @@
 	<script>
 		var editor = ace.edit("editor");
 		editor.setTheme("ace/theme/monokai");
-		editor.session.setMode("ace/mode/javascript");
+		editor.session.setMode("ace/mode/json");
+
+		var hiddenInput = document.getElementById('inputText');
+		editor.getSession().on("change", function() {
+			hiddenInput.value = editor.getSession().getValue();
+		});
+
+		var mode = document.getElementById('mode');
+		mode.addEventListener("change", function(val) {
+			if (mode.value == 'xml') {
+				editor.session.setMode("ace/mode/xml");
+			} else {
+				editor.session.setMode("ace/mode/json");
+			}
+		});
 	</script>
 </body>
 </html>
