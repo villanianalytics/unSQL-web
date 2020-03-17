@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.villanianalytics.unsql.UnSql;
-import com.github.villanianalytics.unsql.exception.UnSqlException;
 import com.github.villanianalytics.unsql.model.Result;
 
 @Controller
@@ -23,17 +22,23 @@ public class UnSqlController {
 	}
 
 	@PostMapping("/")
-	public ModelAndView runQuery(@RequestParam("sqlQuery") String sqlQuery, @RequestParam("inputText") String inputText,
+	public ModelAndView runQuery(@RequestParam(value = "sqlQuery", required = true) String sqlQuery, @RequestParam(value ="inputText", required = true) String inputText,
 			ModelMap modelMap) {
-		UnSql unsql = new UnSql(inputText);
+		String error = null;
 		List<Result> results = null;
+		
 		try {
+			UnSql unsql = new UnSql(inputText);	
 			results = unsql.executeQuery(sqlQuery);
-		} catch (UnSqlException e) {
-			modelMap.put("errors",  e.getMessage());
-		}
+		} catch (Exception e) { 
+			error = e.getMessage();
+		} 
 
+		modelMap.put("sqlQuery", sqlQuery);
+		modelMap.put("inputText", inputText);
 		modelMap.put("results", results);
+		modelMap.put("error", error);
+		modelMap.put("success", error == null);
 
 		return new ModelAndView("index", modelMap);
 	}

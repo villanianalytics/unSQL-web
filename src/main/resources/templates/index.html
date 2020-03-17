@@ -22,16 +22,16 @@
 			on GitHub</a>
 		<h1>UnSQL</h1>
 		<p class="lead">Utility to run SQL on XML and JSON files</p>
-		<div class="row" th:if="${not #lists.isEmpty(results)}">
+		<div class="row" th:if="${success} and ${results} != null">
 			<div class="col-sm-12">
 				<div class="alert alert-success" role="alert">Query ran with
-					success</div>
+					success, found : <span th:text="${results.size}"></span></div>
 			</div>
 		</div>
-		<div class="row" th:if="${errors} != null">
+		<div class="row" th:if="${error} != null">
 			<div class="col-sm-12">
 				<div class="alert alert-danger" role="alert">
-					<span th:text="${errors}"></span>
+					<span th:text="${error}"></span>
 				</div>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 				<form class="form" method="post" action="">
 					<div class="form-group">
 						<label for="exampleFormControlInput1">SQL Query:</label> <input
-							type="text" class="form-control" required name="sqlQuery"
+							type="text" class="form-control" th:value="${sqlQuery}" required name="sqlQuery"
 							placeholder="select ..." />
 					</div>
 					<div class="form-group">
@@ -52,7 +52,7 @@
 							<option>xml</option>
 						</select>
 					</div>
-					<input type="hidden" id="inputText" required name="inputText" />
+					<input type="hidden" id="inputText" th:value="${inputText}" required name="inputText" />
 					<div class="form-group">
 						<label for="mode" class="control-label">Input text:</label>
 						<div class="col-12" style="height: 400px">
@@ -77,7 +77,7 @@
 
 	<footer class="page-footer font-small blue">
 		<div class="footer-copyright text-center py-3">
-			© UnSQL</a>
+			© UnSQL
 		</div>
 	</footer>
 
@@ -101,6 +101,20 @@
 				editor.session.setMode("ace/mode/xml");
 			} else {
 				editor.session.setMode("ace/mode/json");
+			}
+		});
+		
+		window.addEventListener("load", function(){
+			var mode = document.getElementById('mode');
+			var val = document.getElementById('inputText').value;
+			
+			editor.setValue(hiddenInput.value, -1);
+			if (val.startsWith("{")) {
+				mode.value = "json";
+				editor.session.setMode("ace/mode/json");
+			} else {
+				mode.value = "xml";
+				editor.session.setMode("ace/mode/xml");
 			}
 		});
 	</script>
