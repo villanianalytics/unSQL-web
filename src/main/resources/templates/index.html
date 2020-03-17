@@ -14,18 +14,35 @@
 	rel="stylesheet"></link>
 </head>
 
-<body class="py-4">
+<body class="">
+
 	<div class="container">
+
 		<a class="github-fork-ribbon"
 			href="https://github.com/villanianalytics/unSQL"
 			data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me
 			on GitHub</a>
-		<h1>UnSQL</h1>
-		<p class="lead">Utility to run SQL on XML and JSON files</p>
+		<div class="row">
+			<div class="col-sm-12">
+				<h1>
+					<a href="http://www.villytics.com/" target="_blank"> <img
+						th:src="@{/images/VillaniAnalytics_logo.png}"
+						alt="Villani Analytics" style="height: 50px;" />
+					</a> UnSQL
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<p class="lead">Utility to run SQL on XML and JSON files</p>
+			</div>
+		</div>
 		<div class="row" th:if="${success} and ${results} != null">
 			<div class="col-sm-12">
-				<div class="alert alert-success" role="alert">Query ran with
-					success, found : <span th:text="${#lists.size(results)}"></span></div>
+				<div class="alert alert-success" role="alert">
+					Query ran with success, found : <span
+						th:text="${#lists.size(results)}"></span>
+				</div>
 			</div>
 		</div>
 		<div class="row" th:if="${error} != null">
@@ -41,9 +58,11 @@
 				<h3>Input</h3>
 				<form class="form" method="post" action="">
 					<div class="form-group">
-						<label for="exampleFormControlInput1">SQL Query:</label> <input
-							type="text" class="form-control" th:value="${sqlQuery}" required name="sqlQuery"
-							placeholder="select ..." />
+						<label for="exampleFormControlInput1">SQL Query:</label>
+						<textarea class="form-control" id="exampleFormControlTextarea1"
+							th:value="${sqlQuery}" name="sqlQuery" placeholder="select ..."
+							required rows="3"></textarea>
+
 					</div>
 					<div class="form-group">
 						<label for="mode" class="control-label">Input Mode:</label> <select
@@ -52,7 +71,8 @@
 							<option>xml</option>
 						</select>
 					</div>
-					<input type="hidden" id="inputText" th:value="${inputText}" required name="inputText" />
+					<input type="hidden" id="inputText" th:value="${inputText}"
+						required name="inputText" />
 					<div class="form-group">
 						<label for="mode" class="control-label">Input text:</label>
 						<div class="col-12" style="height: 400px">
@@ -76,9 +96,8 @@
 	</div>
 
 	<footer class="page-footer font-small blue">
-		<div class="footer-copyright text-center py-3">
-			© UnSQL
-		</div>
+		<div class="footer-copyright text-center py-3">© Villani
+			Analytics</div>
 	</footer>
 
 	<script type="text/javascript"
@@ -103,18 +122,18 @@
 				editor.session.setMode("ace/mode/json");
 			}
 		});
-		
-		window.addEventListener("load", function(){
+
+		window.addEventListener("load", function() {
 			var mode = document.getElementById('mode');
 			var val = document.getElementById('inputText').value;
-			
+
 			editor.setValue(hiddenInput.value, -1);
-			if (val.startsWith("{")) {
-				mode.value = "json";
-				editor.session.setMode("ace/mode/json");
-			} else {
+			if (val.startsWith("<?xml")) {
 				mode.value = "xml";
 				editor.session.setMode("ace/mode/xml");
+			} else {
+				mode.value = "json";
+				editor.session.setMode("ace/mode/json");
 			}
 		});
 	</script>
