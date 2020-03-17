@@ -25,7 +25,7 @@
 		<div class="row" th:if="${success} and ${results} != null">
 			<div class="col-sm-12">
 				<div class="alert alert-success" role="alert">Query ran with
-					success, found : <span th:text="${results.size}"></span></div>
+					success, found : <span th:text="${#lists.size(results)}"></span></div>
 			</div>
 		</div>
 		<div class="row" th:if="${error} != null">
