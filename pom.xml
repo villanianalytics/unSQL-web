@@ -60,8 +60,6 @@
 			<artifactId>bootstrap</artifactId>
 			<version>${bootstrap.version}</version>
 		</dependency>
-		
-		<!-- Temporary local dependency -->
 		<dependency>
 		    <groupId>com.github.villanianalytics.unsql</groupId>
 		    <artifactId>unsql</artifactId>
