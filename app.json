@@ -1,0 +1,6 @@
+{
+  "name": "UnSQL",
+  "description": "Utility to run SQL on XML and JSON files",
+  "repository": "https://github.com/villanianalytics/unSQL-web",
+  "keywords": ["Unsql", "XML", "Json"]
+}
