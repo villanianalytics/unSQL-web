@@ -1,9 +1,6 @@
 # unSQL Web tool
 
-A command line tool to run SQL on unstructured data. (Json and XML files)
-
-## Getting Started
-
+A web tool to run SQL on unstructured data. (Json and XML files)
 
 ## Requirements
 
