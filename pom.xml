@@ -63,7 +63,7 @@
 		<dependency>
 		    <groupId>com.github.villanianalytics.unsql</groupId>
 		    <artifactId>unsql</artifactId>
-		    <version>0.0.1</version>
+		    <version>0.0.6</version>
 		</dependency>
 	</dependencies>
 
