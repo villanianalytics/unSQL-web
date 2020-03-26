@@ -66,7 +66,7 @@ public class UnSqlController {
 			if (rows.length > 0) {
 				List<String[]> rowsFormatted = new ArrayList<>();
 				for (int i = 1; i < rows.length; i++) {
-					rowsFormatted.add(rows[i].split("/r"));
+					rowsFormatted.add(rows[i].split(delimiter));
 				}
 				
 				model.addAttribute("headers", rows[0].split(delimiter));
