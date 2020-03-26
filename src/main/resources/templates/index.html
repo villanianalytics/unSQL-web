@@ -36,11 +36,10 @@
 				<p class="lead">Utility to run SQL on XML and JSON files</p>
 			</div>
 		</div>
-		<div class="row" th:if="${success} and ${results} != null">
+		<div class="row" th:if="${success}">
 			<div class="col-sm-12">
 				<div class="alert alert-success" role="alert">
-					Query ran with success, found : <span
-						th:text="${#lists.size(results)}"></span>
+					Query ran with success!
 				</div>
 			</div>
 		</div>
@@ -55,23 +54,31 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Input</h3>
-				<form class="form" method="post" action="">
+				<form class="form" action="#" th:action="@{/}" th:object="${unsqlModel}" method="post">
 					<div class="form-group">
 						<label for="exampleFormControlInput1">SQL Query:</label>
 						<textarea class="form-control" id="exampleFormControlTextarea1"
-							th:text="${sqlQuery}" name="sqlQuery" placeholder="select ..."
+							th:field="*{sqlQuery}" placeholder="select ..."
 							required rows="3"></textarea>
 
 					</div>
 					<div class="form-group">
-						<label for="mode" class="control-label">Input Mode:</label> <select
-							id="mode" class="form-control">
+						<label for="mode" class="control-label">Input Mode:</label> 
+						<select id="mode" class="form-control">
 							<option>json</option>
 							<option>xml</option>
 						</select>
 					</div>
-					<input type="hidden" id="inputText" th:value="${inputText}"
-						required name="inputText" />
+					<div class="form-group">
+						<label for="outputType" class="control-label">Output Format:</label> 
+						<select id="outputType" th:field="*{outputType}" class="form-control">
+							<option th:value="'table'" th:text="Table"></option>
+    						<option th:value="'text'" th:text="Text"></option>
+    						<option th:value="'texth'" th:text="Text+' '+Headers"></option>
+    						<option th:value="'json'" th:text="JSON"></option>
+						</select>
+					</div>
+					<input type="hidden" id="inputText" th:field="*{inputText}" required name="inputText" />
 					<div class="form-group">
 						<label for="mode" class="control-label">Input text:</label>
 						<div class="col-12" style="height: 400px">
@@ -79,16 +86,31 @@
 						</div>
 					</div>
 					<br />
-					<button type="submit" class="btn btn-primary ">Run Query</button>
-
+					<input type="submit" class="btn btn-primary" value="Run Query">
 				</form>
 			</div>
 			<div class="col-sm-6">
 				<h3>Results</h3>
-				<div th:each="result: ${results}">
-					<ul th:each="r: ${result.results}" class="list-unstyled">
-						<li class="list-group-item" th:text="${r}">/>
-					</ul>
+				<div class="col-sm-12">
+					<pre th:if="${resultJson} != null" id="resultsJson"></pre>
+				</div>
+				<div class="col-sm-12">
+					<pre th:if="${resultText} != null"><code th:utext="${resultText}"></code></pre>
+				</div>
+				<div class="col-sm-12">
+					<table class="table table-sm table-hover" th:if="${headers} != null">
+						<caption>Results table</caption>
+					    <thead>
+					        <tr>
+					            <th th:each="header: ${headers}" scope="col" th:text="${header}" />
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <tr th:each="row: ${rows}">
+					            <td th:each="r: ${row}" th:text="${r}" />
+					        </tr>
+					    </tbody>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -134,7 +156,19 @@
 				mode.value = "json";
 				editor.session.setMode("ace/mode/json");
 			}
+			
+			
 		});
+	</script>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		var resultsJson = [[${resultJson}]];
+		if (resultsJson) {
+			var rObj = JSON.parse(resultsJson);
+			document.getElementById("resultsJson").innerHTML = JSON.stringify(rObj, undefined, 2);;
+		}
+	/*]]>*/
 	</script>
 </body>
 </html>
